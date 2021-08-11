@@ -20,19 +20,21 @@ class Particle {
     constructor(x, y) {
         this.x = x;
         this.y = y;
-        this.size = Math.random() * 10 + 2;
+        this.size = Math.random() * 15 + 2;
         this.weight = this.size / 3;
-        this.directionX = (Math.random() - 0.5) * 10;
+        this.directionX = -3;
     }
     update(){
         if (this.y > canvas.height) {
             this.y = 0 - this.size;
             this.weight = this.size;
             this.x = Math.random() * canvas.width * 2;
+            this.directionX = -3;
         }
         this.weight += 0.1;
         this.y += this.weight;
         this.x += this.directionX;
+        this.directionX = this.directionX + 0.1;
 
         // check for collision between particles and title
         if (
@@ -43,6 +45,7 @@ class Particle {
         ) {
             this.y -= 3;
             this.weight *= -0.5;
+            this.size -= 0.1;
         }
     }
     draw(){
@@ -72,7 +75,6 @@ function animate() {
         particlesArray[i].update();
         particlesArray[i].draw();
     }
-    ctx.fillRect(title.x, title.y, title.width, title.height);
     requestAnimationFrame(animate);
 }
 animate();
@@ -85,7 +87,7 @@ window.addEventListener('resize', function(){
         x: titleMeasurements.left,
         y: titleMeasurements.top,
         width: titleMeasurements.width,
-        height: 10,
+        height: 25,
     }
     init();
 })
